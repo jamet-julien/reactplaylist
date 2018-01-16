@@ -20,7 +20,6 @@ class Aggregation extends Component{
   render(){
     let style = {
       ...defaultStyle,
-
       margin: "0 20px",
       display: "inline-block",};
     return (
