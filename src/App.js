@@ -15,7 +15,7 @@ const fakeServerData = {
   },
   "playlists": [
     {
-      "name": "Knight",
+      "name": "Knight labore",
       "songs": [
         {
           "song": "qui labore laboris",
@@ -32,7 +32,7 @@ const fakeServerData = {
       ]
     },
     {
-      "name": "Peterson",
+      "name": "Peterson dolore",
       "songs": [
         {
           "song": "consectetur culpa aliqua",
@@ -49,7 +49,7 @@ const fakeServerData = {
       ]
     },
     {
-      "name": "House",
+      "name": "House voluptate",
       "songs": [
         {
           "song": "mollit aliquip eiusmod",
@@ -66,7 +66,7 @@ const fakeServerData = {
       ]
     },
     {
-      "name": "Snider",
+      "name": "Snider dolor",
       "songs": [
         {
           "song": "ad irure et",
@@ -130,8 +130,7 @@ class Filter extends Component{
     }
     return (
      <div style={style}>
-       <input type="text"/>
-       <button>Filter</button>
+        <input type="text" onKeyUp={({ target }) => this.props.onFilter(target.value)}/>
      </div>
     )
   }
@@ -165,14 +164,20 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      serverData : {}
+      serverData : {},
+      filterSlug : ''
     }
   }
 
   componentDidMount() {
     setTimeout(()=>{
       this.setState({ serverData: fakeServerData });
+    }, 1000)
+/*
+    setTimeout(() => {
+      this.setState({ filterSlug: 'ore' });
     }, 2000)
+*/
   }
 
 
@@ -182,14 +187,17 @@ class App extends Component {
       color    : 'red',
       fontSize : '50px'
     };
-    if (this.state.serverData.playlists){
+
+    let playlistRender = this.state.serverData.user ? this.state.serverData.playlists.filter(({ name }) => name.toLowerCase().includes(this.state.filterSlug.toLowerCase())) : [];
+
+    if (this.state.serverData.user ){
       return (
         <div className="App">
           <Title name={this.state.serverData.user.name}/>
-          <PlaylistCounter playlists={this.state.serverData.playlists}/>
-          <HourCounter playlists={this.state.serverData.playlists}/>
-          <Filter/>
-          {this.state.serverData.playlists.map( ({name,songs},index) => <Playlist key={index} name={name} songs={songs}/>)}
+          <PlaylistCounter playlists={playlistRender}/>
+          <HourCounter playlists={playlistRender}/>
+          <Filter onFilter={el => this.setState({ filterSlug: el })}/>
+          {playlistRender.map( ({name,songs},index) => <Playlist key={index} name={name} songs={songs}/>)}
         </div>
       );
     }else{
