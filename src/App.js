@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+//import logo from './logo.svg';
 import './App.css';
 
 
@@ -143,18 +143,16 @@ class Playlist extends Component{
   render (){
     let style = {
       ...defaultStyle,
+      verticalAlign : "top",
       display: "inline-block",
       width : "20%"
-    }
+    };
     return (
       <div style={style}>
         <img/>
-        <p>Playlist name</p>
+        <p>{this.props.name}</p>
         <ul>
-          <li>premier</li>
-          <li>second</li>
-          <li>troisième</li>
-          <li>quatriéme</li>
+          {this.props.songs && this.props.songs.map( ({song}, index) => <li key={index}>{song}</li>)}
         </ul>
       </div>
     )
@@ -184,17 +182,14 @@ class App extends Component {
       color    : 'red',
       fontSize : '50px'
     };
-    if (this.state.serverData.user){
+    if (this.state.serverData.playlists){
       return (
         <div className="App">
           <Title name={this.state.serverData.user.name}/>
           <PlaylistCounter playlists={this.state.serverData.playlists}/>
           <HourCounter playlists={this.state.serverData.playlists}/>
           <Filter/>
-          <Playlist/>
-          <Playlist/>
-          <Playlist/>
-          <Playlist/>
+          {this.state.serverData.playlists.map( ({name,songs},index) => <Playlist key={index} name={name} songs={songs}/>)}
         </div>
       );
     }else{
