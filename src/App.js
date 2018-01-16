@@ -23,7 +23,7 @@ class Aggregation extends Component{
       margin: "0 20px",
       display: "inline-block",};
     return (
-      <span style={style}>Number of elements (prod)</span>
+      <span style={style}>Number of elements (prod #2)</span>
     )
   }
 }
